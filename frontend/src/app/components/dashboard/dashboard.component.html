@@ -1,0 +1,15 @@
+<div class="dashboard-container">
+  <div class="repositories-container">
+    <div class="repository-header"><span class="white-color bold">Organization repositories</span></div>
+    <div class="repository-body">
+      <div class="repository" *ngFor="let repo of repositories">
+        <div class="name white-color">
+          {{ repo.name }}
+        </div>
+        <div class="pull-requests white-color">
+          {{ repo.pullRequestsCount }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

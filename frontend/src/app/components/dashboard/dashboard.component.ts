@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Repository } from '../../common/model/repository';
 import { RepositoryService } from '../../service/repository.service';
-import {NgForOf} from "@angular/common";
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',

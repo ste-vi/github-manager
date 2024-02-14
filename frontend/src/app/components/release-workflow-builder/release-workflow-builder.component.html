@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="release-builder-container">
+
+    <div class="p-rm-b-1">
+      <h3 class="white-color bold">Create release</h3>
+    </div>
+
+    <div class="workflow-container">
+
+      <div class="step">
+
+        <div class="step-progress">
+          <app-workflow-checkbox [checked]="true"></app-workflow-checkbox>
+        </div>
+
+        <div class="select-repositories-container">
+          <div class="repository-header">
+            <span class="white-color bold">Select repositories</span>
+          </div>
+          <div class="repository-body">
+            <div class="repository" *ngFor="let repo of repositories">
+              <div class="item">
+                <app-default-checkbox [checked]="true"></app-default-checkbox>
+              </div>
+              <div class="name white-color item">
+                {{ repo.name }}
+              </div>
+              <div class="pull-requests white-color item">
+                {{ repo.pullRequestsCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-progress">
+          <app-workflow-checkbox [checked]="false"></app-workflow-checkbox>
+        </div>
+
+        <div class="select-repositories-container">
+          <div class="repository-header">
+            <span class="white-color bold">Select branches</span>
+          </div>
+          <div class="repository-body">
+
+            <div class="repository" *ngFor="let repo of repositories">
+
+              <div class="name white-color">
+                {{ repo.name }}
+              </div>
+              <div class="pull-requests white-color">
+                {{ repo.pullRequestsCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

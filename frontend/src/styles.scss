@@ -16,11 +16,13 @@
   --main-color: #22272E;
   --boder-color: #4b4a4a;
   --text-color: #d2d2d2;
+  --checkbox-color: #26a212;
 }
 
 body {
   background: var(--main-color);
   font-family: "Nunito Sans", sans-serif;
+  font-size: 14px;
 }
 
 .white-color {
@@ -30,3 +32,9 @@ body {
 .bold {
   font-weight: bold;
 }
+
+.p-rm-b-1 {
+  padding-bottom: 1rem;
+}
+
+

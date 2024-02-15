@@ -14,9 +14,12 @@
 
 :root {
   --main-color: #22272E;
-  --boder-color: #4b4a4a;
+  --boder-color: #4b4b4b;
   --text-color: #d2d2d2;
   --checkbox-color: #26a212;
+  --actions-color: #26a212;
+  --actions-hover-color: #29c010;
+  --actions-click-color: #1f940c;
 }
 
 body {
@@ -33,8 +36,40 @@ body {
   font-weight: bold;
 }
 
+.center-text {
+  text-align: center;
+}
+
 .p-rm-b-1 {
   padding-bottom: 1rem;
 }
 
+.btn {
+  padding: 0.5rem 1.4rem;
+  border: none;
+  background-color: var(--actions-color);
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  margin-right: 1rem;
+}
+
+.btn:hover {
+  background-color: var(--actions-hover-color);
+}
+
+.btn:active {
+  transform: scale(0.98);
+  background-color: var(--actions-click-color);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
 

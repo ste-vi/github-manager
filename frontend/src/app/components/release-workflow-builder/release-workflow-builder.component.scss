@@ -6,14 +6,17 @@
   padding: 2rem;
 }
 
-
 .release-builder-container {
   display: flex;
   flex-direction: column;
   align-self: center;
 
   padding: 1rem 1rem 1rem 1rem;
-  border: 1px solid var(--boder-color);
+  //box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  //box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px;
+  //box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgb(33, 33, 33) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border: 2px solid var(--boder-color);
   border-radius: 8px;
   width: 80%;
 
@@ -21,27 +24,28 @@
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    padding-right: 0.5rem;
   }
-
 
   .select-repositories-container {
     display: flex;
     flex-direction: column;
     width: 90%;
 
-    .repository-header {
+    .select-repositories-header {
       text-align: center;
       padding: 14px;
-      margin-bottom: 10px;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
       border: 1px solid var(--boder-color);
     }
 
-    .repository-body {
-      border: 1px solid var(--boder-color);
+    .select-repositories-body {
+      //border: 12x solid var(--boder-color);
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
       .repository {
         display: flex;
@@ -56,7 +60,7 @@
 
       .item {
         flex-grow: 0;
-        padding-left: 0.5rem;
+        padding-left: 0.7rem;
       }
 
       .item:first-child {
@@ -73,25 +77,48 @@
         border-bottom: none;
       }
     }
+
+    .select-repositories-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 1rem;
+
+    }
   }
 
 }
 
-
 .step {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
   align-items: center;
   justify-content: center;
 
   .step-progress {
     width: 10%;
+    text-align: center;
+    margin-right: 1rem;
   }
 }
 
+.icon-div {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
 
-// progress checkboxes
+.line-below-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 22px 8px 8px;
+
+  .line-below {
+    border-left: 3px solid var(--actions-color);
+    height: 23px;
+  }
+}
 
 
 

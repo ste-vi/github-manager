@@ -1,8 +1,8 @@
 <div class="container">
   <div class="release-builder-container">
 
-    <div class="p-rm-b-1">
-      <h3 class="white-color bold">Create release</h3>
+    <div class="p-rm-b-1 center-text">
+<!--      <h2 class="white-color bold">Create release</h2>-->
     </div>
 
     <div class="workflow-container">
@@ -10,55 +10,80 @@
       <div class="step">
 
         <div class="step-progress">
-          <app-workflow-checkbox [checked]="true"></app-workflow-checkbox>
+          <app-workflow-checkbox [checked]="isSelectRepositoriesStepCompleted"></app-workflow-checkbox>
         </div>
 
         <div class="select-repositories-container">
-          <div class="repository-header">
+          <div class="select-repositories-header">
             <span class="white-color bold">Select repositories</span>
           </div>
-          <div class="repository-body">
+          <div class="select-repositories-body">
             <div class="repository" *ngFor="let repo of repositories">
               <div class="item">
-                <app-default-checkbox [checked]="true"></app-default-checkbox>
+                <app-default-checkbox [checked]="false"
+                                      [disabled]="isSelectRepositoriesStepCompleted"
+                                      (changed)="addRepositoryToSelected($event, repo)">
+                </app-default-checkbox>
               </div>
               <div class="name white-color item">
                 {{ repo.name }}
               </div>
-              <div class="pull-requests white-color item">
+              <div class="white-color item icon-div">
                 {{ repo.pullRequestsCount }}
+                <fa-icon [icon]="faCodePullRequest"></fa-icon>
+              </div>
+              <div class="white-color item icon-div">
+                {{ repo.commitsCount }}
+                <fa-icon [icon]="faCodeCommit"></fa-icon>
               </div>
             </div>
           </div>
+          <div class="select-repositories-footer" *ngIf="!isSelectRepositoriesStepCompleted">
+            <div class="button" (click)="selectRepositories()">
+              <button class="btn btn-primary github-button" [disabled]="isNextStepForSelectBranchesDisabled">Next
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
 
+    <div class="step line-below-container" *ngIf="isSelectBranchesStepShow">
+      <div class="step-progress"></div>
+      <div class="line-below"></div>
+    </div>
+
+    <div class="step select-branches-step" *ngIf="isSelectBranchesStepShow" [@showHide]="'show'">
+      <div class="step-progress">
+        <app-workflow-checkbox [checked]="false"></app-workflow-checkbox>
       </div>
 
-
-      <div class="step">
-
-        <div class="step-progress">
-          <app-workflow-checkbox [checked]="false"></app-workflow-checkbox>
+      <div class="select-repositories-container">
+        <div class="select-repositories-header">
+          <span class="white-color bold">Select branches</span>
         </div>
-
-        <div class="select-repositories-container">
-          <div class="repository-header">
-            <span class="white-color bold">Select branches</span>
-          </div>
-          <div class="repository-body">
-
-            <div class="repository" *ngFor="let repo of repositories">
-
-              <div class="name white-color">
-                {{ repo.name }}
-              </div>
-              <div class="pull-requests white-color">
-                {{ repo.pullRequestsCount }}
-              </div>
+        <div class="select-repositories-body">
+          <div class="repository" *ngFor="let repo of selectedRepositories">
+            <div class="item">
+            </div>
+            <div class="name white-color item">
+              {{ repo.name }}
+            </div>
+            <div class="white-color item icon-div">
+              {{ repo.pullRequestsCount }}
+              <fa-icon [icon]="faCodePullRequest"></fa-icon>
+            </div>
+            <div class="white-color item icon-div">
+              {{ repo.commitsCount }}
+              <fa-icon [icon]="faCodeCommit"></fa-icon>
             </div>
           </div>
         </div>
-
+        <div class="select-repositories-footer">
+          <div class="button">
+            <button class="btn btn-primary github-button">Next</button>
+          </div>
+        </div>
       </div>
 
     </div>

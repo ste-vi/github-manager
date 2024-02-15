@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-default-checkbox',
@@ -9,4 +9,10 @@ import { Component, Input } from '@angular/core';
 })
 export class DefaultCheckboxComponent {
   @Input() checked = false;
+  @Input() disabled: boolean = false;
+  @Output() changed = new EventEmitter<boolean>();
+
+  change($event: Event) {
+    this.changed.emit(($event.target as HTMLInputElement).checked);
+  }
 }

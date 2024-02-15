@@ -2,7 +2,7 @@
   <div class="release-builder-container">
 
     <div class="p-rm-b-1 center-text">
-<!--      <h2 class="white-color bold">Create release</h2>-->
+      <!--      <h2 class="white-color bold">Create release</h2>-->
     </div>
 
     <div class="workflow-container">
@@ -26,15 +26,19 @@
                 </app-default-checkbox>
               </div>
               <div class="name white-color item">
-                {{ repo.name }}
+                <a [href]="repo.url" target="_blank">{{ repo.name }}</a>
               </div>
               <div class="white-color item icon-div">
-                {{ repo.pullRequestsCount }}
-                <fa-icon [icon]="faCodePullRequest"></fa-icon>
+                <a [href]="repo.url + '/pulls'" class="icon-div" target="_blank">
+                  {{ repo.pullRequestsCount }}
+                  <fa-icon [icon]="faCodePullRequest"></fa-icon>
+                </a>
               </div>
               <div class="white-color item icon-div">
-                {{ repo.commitsCount }}
-                <fa-icon [icon]="faCodeCommit"></fa-icon>
+                <a [href]="repo.url + '/commits'" class="icon-div" target="_blank">
+                  {{ repo.commitsCount }}
+                  <fa-icon [icon]="faCodeCommit"></fa-icon>
+                </a>
               </div>
             </div>
           </div>

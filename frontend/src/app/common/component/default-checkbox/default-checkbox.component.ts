@@ -12,6 +12,12 @@ export class DefaultCheckboxComponent {
   @Input() disabled: boolean = false;
   @Output() changed = new EventEmitter<boolean>();
 
+  randomId: string;
+
+  constructor() {
+    this.randomId = 'input_' + Math.random().toString(36).substring(7);
+  }
+
   change($event: Event) {
     this.changed.emit(($event.target as HTMLInputElement).checked);
   }

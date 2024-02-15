@@ -73,3 +73,7 @@ body {
   cursor: not-allowed;
 }
 
+.disable-manual {
+  pointer-events: none;
+}
+

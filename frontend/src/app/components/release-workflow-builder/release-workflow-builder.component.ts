@@ -20,6 +20,7 @@ import {
 import { SelectComponent } from '../../common/component/select/select.component';
 import { Branch } from '../../common/model/branch';
 import { SelectedBranch } from '../../common/model/selected-branch';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-release-workflow-builder',
@@ -31,6 +32,7 @@ import { SelectedBranch } from '../../common/model/selected-branch';
     FaIconComponent,
     NgIf,
     SelectComponent,
+    FormsModule,
   ],
   templateUrl: './release-workflow-builder.component.html',
   styleUrl: './release-workflow-builder.component.scss',
@@ -51,10 +53,16 @@ export class ReleaseWorkflowBuilderComponent {
   protected repositories: Repository[] = [];
   protected selectedRepositories: Repository[] = [];
   protected selectedBranches: SelectedBranch[] = [];
+  protected releaseName: string = '';
+  protected pullRequestName: string = '';
 
-  protected isSelectBranchesStepShow = true;
+  protected isSelectBranchesStepShow = false;
+  protected isSelectRepositoriesStepCompleted = false;
   protected isNextStepForSelectBranchesDisabled = true;
-  protected isSelectRepositoriesStepCompleted = true;
+
+  protected isMetadataStepShow = false;
+  protected isSelectBranchesStepCompleted = false;
+  protected isMetadataStepCompleted = false;
 
   constructor(private repositoryService: RepositoryService) {
     repositoryService
@@ -62,9 +70,9 @@ export class ReleaseWorkflowBuilderComponent {
       .subscribe((repositories) => (this.repositories = repositories));
 
     // remove
-    this.selectedRepositories.push(this.repositories[0]);
-    this.selectedRepositories.push(this.repositories[1]);
-    this.selectedRepositories.push(this.repositories[2]);
+    // this.selectedRepositories.push(this.repositories[0]);
+    // this.selectedRepositories.push(this.repositories[1]);
+    // this.selectedRepositories.push(this.repositories[2]);
   }
 
   addRepositoryToSelected(result: boolean, repo: Repository) {
@@ -86,7 +94,7 @@ export class ReleaseWorkflowBuilderComponent {
     });
   }
 
-  selectRepositories() {
+  completeSelectRepositoriesStep() {
     this.isSelectRepositoriesStepCompleted = true;
     this.isSelectBranchesStepShow = true;
   }
@@ -107,5 +115,23 @@ export class ReleaseWorkflowBuilderComponent {
     if (existingBranch) {
       existingBranch.fromBranch = $event;
     }
+  }
+
+  completeSelectBranchesStep() {
+    this.isSelectBranchesStepCompleted = true;
+    this.isMetadataStepShow = true;
+  }
+
+  onReleaseNameInput() {
+    this.checkIfMetadataStepCompleted();
+  }
+
+  onPullRequestNameInput() {
+    this.checkIfMetadataStepCompleted();
+  }
+
+  private checkIfMetadataStepCompleted() {
+    this.isMetadataStepCompleted =
+      this.releaseName.length > 4 && this.pullRequestName.length > 4;
   }
 }

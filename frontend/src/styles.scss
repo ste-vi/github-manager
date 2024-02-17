@@ -15,7 +15,7 @@
 :root {
   --main-color: #22272E;
   --boder-color: #a1a1a1;
-  --text-color: #d2d2d2;
+  --text-color: #e5e5e5;
   --checkbox-color: #26a212;
   --actions-color: #26a212;
   --link-color: #5087fa;
@@ -91,4 +91,20 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--boder-color);
   border-radius: 2px;
+}
+
+.input {
+  border: 1px solid var(--boder-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--main-color);
+  transition: border-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+
+  &:focus {
+    outline: none;
+    border-color: #0366d6;
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+  }
 }

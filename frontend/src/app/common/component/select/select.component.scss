@@ -1,0 +1,46 @@
+
+.branch-select {
+  position: relative;
+  display: inline-block;
+}
+
+.branch-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--main-color);
+  border: 1px solid var(--boder-color);
+  color: var(--text-color);
+  padding: 4px 24px 4px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  outline: none;
+  display: inline-block; /* Set to inline-block */
+  max-width: 200px;
+}
+
+.branch-select select::-ms-expand {
+  display: none;
+}
+
+.branch-select select:hover {
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+}
+
+.branch-select select:focus {
+  border-color: #0366d6;
+  box-shadow: 0 0 0 5px rgba(3, 102, 214, 0.1);
+}
+
+.branch-select::after {
+  content: "\25BE";
+  font-size: 12px;
+  cursor: pointer;
+  color: #586069;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+

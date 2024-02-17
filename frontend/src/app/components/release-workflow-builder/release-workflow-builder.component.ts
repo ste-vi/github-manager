@@ -5,6 +5,7 @@ import { RepositoryService } from '../../service/repository.service';
 import { WorkflowCheckboxComponent } from '../../common/component/workflow-checkbox/workflow-checkbox.component';
 import { DefaultCheckboxComponent } from '../../common/component/default-checkbox/default-checkbox.component';
 import {
+  faArrowLeftLong,
   faCodeCommit,
   faCodePullRequest,
 } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +17,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { SelectComponent } from '../../common/component/select/select.component';
+import { Branch } from '../../common/model/branch';
+import { SelectedBranch } from '../../common/model/selected-branch';
 
 @Component({
   selector: 'app-release-workflow-builder',
@@ -26,6 +30,7 @@ import {
     DefaultCheckboxComponent,
     FaIconComponent,
     NgIf,
+    SelectComponent,
   ],
   templateUrl: './release-workflow-builder.component.html',
   styleUrl: './release-workflow-builder.component.scss',
@@ -41,18 +46,25 @@ import {
 export class ReleaseWorkflowBuilderComponent {
   protected readonly faCodePullRequest = faCodePullRequest;
   protected readonly faCodeCommit = faCodeCommit;
+  protected readonly faArrowLeftLong = faArrowLeftLong;
 
   protected repositories: Repository[] = [];
   protected selectedRepositories: Repository[] = [];
+  protected selectedBranches: SelectedBranch[] = [];
 
-  protected isSelectBranchesStepShow = false;
+  protected isSelectBranchesStepShow = true;
   protected isNextStepForSelectBranchesDisabled = true;
-  protected isSelectRepositoriesStepCompleted = false;
+  protected isSelectRepositoriesStepCompleted = true;
 
   constructor(private repositoryService: RepositoryService) {
     repositoryService
       .getRepositories()
       .subscribe((repositories) => (this.repositories = repositories));
+
+    // remove
+    this.selectedRepositories.push(this.repositories[0]);
+    this.selectedRepositories.push(this.repositories[1]);
+    this.selectedRepositories.push(this.repositories[2]);
   }
 
   addRepositoryToSelected(result: boolean, repo: Repository) {
@@ -66,10 +78,34 @@ export class ReleaseWorkflowBuilderComponent {
 
     this.isNextStepForSelectBranchesDisabled =
       this.selectedRepositories.length === 0;
+
+    this.selectedBranches.push({
+      fromBranch: repo.branches[0],
+      toBranch: repo.branches[0],
+      repository: repo,
+    });
   }
 
   selectRepositories() {
     this.isSelectRepositoriesStepCompleted = true;
     this.isSelectBranchesStepShow = true;
+  }
+
+  selectBranchTo($event: Branch, repository: Repository) {
+    const existingBranch = this.selectedBranches.find(
+      (branch) => branch.repository === repository,
+    );
+    if (existingBranch) {
+      existingBranch.toBranch = $event;
+    }
+  }
+
+  selectBranchFrom($event: Branch, repository: Repository) {
+    const existingBranch = this.selectedBranches.find(
+      (branch) => branch.repository === repository,
+    );
+    if (existingBranch) {
+      existingBranch.fromBranch = $event;
+    }
   }
 }

@@ -9,7 +9,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class DefaultCheckboxComponent {
   @Input() checked = false;
-  @Input() disabled: boolean = false;
   @Output() changed = new EventEmitter<boolean>();
 
   randomId: string;

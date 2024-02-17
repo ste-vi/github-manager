@@ -78,3 +78,17 @@ body {
   pointer-events: none;
 }
 
+::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--main-color);
+  opacity: 0.5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--boder-color);
+  border-radius: 2px;
+}

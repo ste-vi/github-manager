@@ -1,5 +1,6 @@
 package com.stevi.githubmanager.service
 
+import com.stevi.githubmanager.payload.githubapi.PullRequest
 import com.stevi.githubmanager.payload.request.PullRequestRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
@@ -17,7 +18,7 @@ class PullRequestService(private val restTemplate: RestTemplate) {
     @Value("\${github.api.token}")
     private lateinit var githubApiToken: String
 
-    fun createPullRequest(org: String, pullRequestRequest: PullRequestRequest) {
+    fun createPullRequest(org: String, pullRequestRequest: PullRequestRequest): PullRequest? {
         val path = "/repos/$org/${pullRequestRequest.repo}/pulls"
         val apiUrl = "$githubApiUrl$path"
         val headers = HttpHeaders().apply {
@@ -33,11 +34,15 @@ class PullRequestService(private val restTemplate: RestTemplate) {
 
         val requestEntity = HttpEntity(requestBody, headers)
 
+        val responseType = object : ParameterizedTypeReference<PullRequest>() {}
+
         val responseEntity = restTemplate.exchange(
             URI(apiUrl),
             HttpMethod.POST,
             requestEntity,
-            object : ParameterizedTypeReference<Map<String, Any>>() {})
+            responseType
+        )
 
+        return responseEntity.body;
     }
 }

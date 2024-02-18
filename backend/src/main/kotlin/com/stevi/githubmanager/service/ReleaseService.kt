@@ -8,10 +8,11 @@ class ReleaseService(private val pullRequestService: PullRequestService) {
 
     fun createRelease(org: String, releaseRequest: ReleaseRequest) {
         releaseRequest.pullRequestRequests.forEach { pullRequestRequest ->
-            pullRequestService.createPullRequest(
+            val pullRequest = pullRequestService.createPullRequest(
                 org,
                 pullRequestRequest
             )
+            pullRequest?.state;
         }
     }
 }

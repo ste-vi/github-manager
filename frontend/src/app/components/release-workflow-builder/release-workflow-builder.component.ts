@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
-import { Repository } from '../../common/model/repository';
-import { RepositoryService } from '../../service/repository.service';
-import { WorkflowCheckboxComponent } from '../../common/component/workflow-checkbox/workflow-checkbox.component';
-import { DefaultCheckboxComponent } from '../../common/component/default-checkbox/default-checkbox.component';
+import {Component} from '@angular/core';
+import {NgForOf, NgIf} from '@angular/common';
+import {Repository} from '../../common/model/repository';
+import {RepositoryService} from '../../service/repository.service';
+import {WorkflowCheckboxComponent} from '../../common/component/workflow-checkbox/workflow-checkbox.component';
+import {DefaultCheckboxComponent} from '../../common/component/default-checkbox/default-checkbox.component';
 import {
   faArrowLeftLong,
   faCodeCommit,
   faCodePullRequest,
 } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {
   animate,
   state,
@@ -17,10 +17,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { SelectComponent } from '../../common/component/select/select.component';
-import { Branch } from '../../common/model/branch';
-import { SelectedBranch } from '../../common/model/selected-branch';
-import { FormsModule } from '@angular/forms';
+import {SelectComponent} from '../../common/component/select/select.component';
+import {SelectedBranch} from '../../common/model/selected-branch';
+import {FormsModule} from '@angular/forms';
+import {ReleaseService} from '../../service/release.service';
 
 @Component({
   selector: 'app-release-workflow-builder',
@@ -38,8 +38,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './release-workflow-builder.component.scss',
   animations: [
     trigger('showHide', [
-      state('true', style({ opacity: 1, color: 'red' })),
-      state('void', style({ opacity: 0, color: 'blue' })),
+      state('true', style({opacity: 1, color: 'red'})),
+      state('void', style({opacity: 0, color: 'blue'})),
       transition(':enter', animate('300ms ease-in')),
       transition(':leave', animate('300ms ease-in')),
     ]),
@@ -65,7 +65,10 @@ export class ReleaseWorkflowBuilderComponent {
   protected isNextStepForMetadataDisabled = true;
   protected isMetadataStepCompleted = false;
 
-  constructor(private repositoryService: RepositoryService) {
+  constructor(
+    private repositoryService: RepositoryService,
+    private releaseService: ReleaseService,
+  ) {
     repositoryService
       .getRepositories()
       .subscribe((repositories) => (this.repositories = repositories));
@@ -100,7 +103,7 @@ export class ReleaseWorkflowBuilderComponent {
     this.isSelectBranchesStepShow = true;
   }
 
-  selectBranchTo($event: Branch, repository: Repository) {
+  selectBranchTo($event: string, repository: Repository) {
     const existingBranch = this.selectedBranches.find(
       (branch) => branch.repository === repository,
     );
@@ -110,7 +113,7 @@ export class ReleaseWorkflowBuilderComponent {
     this.disableNextStepMetadataButton();
   }
 
-  selectBranchFrom($event: Branch, repository: Repository) {
+  selectBranchFrom($event: string, repository: Repository) {
     const existingBranch = this.selectedBranches.find(
       (branch) => branch.repository === repository,
     );
@@ -124,7 +127,7 @@ export class ReleaseWorkflowBuilderComponent {
     this.isNextStepForMetadataDisabled = false;
 
     this.selectedBranches.forEach((selectedBranch) => {
-      console.log(selectedBranch)
+      console.log(selectedBranch);
       if (selectedBranch.fromBranch === selectedBranch.toBranch) {
         this.isNextStepForMetadataDisabled = true;
       }
@@ -147,5 +150,13 @@ export class ReleaseWorkflowBuilderComponent {
   private checkIfMetadataStepCompleted() {
     this.isMetadataStepCompleted =
       this.releaseName.length > 4 && this.pullRequestName.length > 4;
+  }
+
+  createRelease() {
+    this.releaseService.createRelease(
+      this.releaseName,
+      this.pullRequestName,
+      this.selectedBranches,
+    ).subscribe(value => console.log("CREATED"));
   }
 }

@@ -1,15 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Repository } from '../common/model/repository';
 import { Observable } from 'rxjs';
-import {Branch} from "../common/model/branch";
+import { Branch } from '../common/model/branch';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RepositoryService {
-  getRepositories(): Observable<Repository[]> {
-    return new Observable<Repository[]>((observer) => {
+export class RepositoryService implements OnInit {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+  ) {}
 
+  ngOnInit() {}
+
+  getRepositories(): Observable<Repository[]> {
+    return this.http.get<Repository[]>(environment.API_URL + '/repos');
+
+    /*return new Observable<Repository[]>((observer) => {
       let branches = [
         { id: 1, name: 'main' },
         { id: 2, name: 'dev' },
@@ -39,6 +50,6 @@ export class RepositoryService {
 
       observer.next([repo1, repo2, repo3]);
       observer.complete();
-    });
+    });*/
   }
 }

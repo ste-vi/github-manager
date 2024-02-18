@@ -1,7 +1,7 @@
 <div class="branch-select">
   <select [(ngModel)]="selectedValue" (change)="onSelected()">
     <option *ngFor="let value of values" [ngValue]="value">
-      {{ value.name }}
+      {{ value }}
     </option>
   </select>
 </div>

@@ -15,7 +15,8 @@
   box-shadow: rgb(33, 33, 33) 0px 2px 8px -1px, rgba(0, 0, 0, 0.3) 0px 3px 3px -1px;
   border: 2px solid var(--boder-color);
   border-radius: 8px;
-  width: 80%;
+  width: 90%;
+  max-width: 800px;
 
   .workflow-container {
     display: flex;
@@ -79,7 +80,6 @@
       flex-direction: row;
       justify-content: center;
       padding: 1rem;
-
     }
   }
 

@@ -62,6 +62,7 @@ export class ReleaseWorkflowBuilderComponent {
 
   protected isMetadataStepShow = false;
   protected isSelectBranchesStepCompleted = false;
+  protected isNextStepForMetadataDisabled = true;
   protected isMetadataStepCompleted = false;
 
   constructor(private repositoryService: RepositoryService) {
@@ -106,6 +107,7 @@ export class ReleaseWorkflowBuilderComponent {
     if (existingBranch) {
       existingBranch.toBranch = $event;
     }
+    this.disableNextStepMetadataButton();
   }
 
   selectBranchFrom($event: Branch, repository: Repository) {
@@ -115,6 +117,18 @@ export class ReleaseWorkflowBuilderComponent {
     if (existingBranch) {
       existingBranch.fromBranch = $event;
     }
+    this.disableNextStepMetadataButton();
+  }
+
+  private disableNextStepMetadataButton() {
+    this.isNextStepForMetadataDisabled = false;
+
+    this.selectedBranches.forEach((selectedBranch) => {
+      console.log(selectedBranch)
+      if (selectedBranch.fromBranch === selectedBranch.toBranch) {
+        this.isNextStepForMetadataDisabled = true;
+      }
+    });
   }
 
   completeSelectBranchesStep() {

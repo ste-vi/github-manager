@@ -55,7 +55,7 @@
 
       <div class="step select-branches-step" *ngIf="isSelectBranchesStepShow" [@showHide]="'show'">
         <div class="step-progress">
-          <app-workflow-checkbox [checked]="isSelectBranchesStepCompleted"></app-workflow-checkbox>
+          <app-workflow-checkbox [checked]="!isNextStepForMetadataDisabled"></app-workflow-checkbox>
         </div>
 
         <div class="select-repositories-container">
@@ -84,7 +84,7 @@
           </div>
           <div class="select-repositories-footer" *ngIf="!isSelectBranchesStepCompleted">
             <div class="button" (click)="completeSelectBranchesStep()">
-              <button class="btn btn-primary github-button">Next
+              <button class="btn btn-primary github-button" [disabled]="isNextStepForMetadataDisabled">Next
               </button>
             </div>
           </div>

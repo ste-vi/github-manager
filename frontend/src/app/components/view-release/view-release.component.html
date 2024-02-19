@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="view-release-container">
+    <div class="view-release-header">
+      <span class="white-color bold">Release: {{ releaseName }}</span>
+    </div>
+    <div class="view-release-body">
+      <div class="repository" *ngFor="let repo of repositories">
+        <div class="name white-color item">
+          <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5'" target="_blank">test-repo-1</a>
+        </div>
+        <div class="white-color item icon-div">
+          <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5' + '/pulls'" class="icon-div" target="_blank">
+            <fa-icon [icon]="faCodePullRequest"></fa-icon>
+            Pull request #1
+          </a>
+        </div>
+        <div class="white-color item icon-div">
+          <div class="icon-div">
+            <span>Open</span>
+          </div>
+          <div class="icon-div">
+            <span>Mergable</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="view-release-footer">
+      <div class="button">
+        <button class="btn btn-primary github-button">Merge
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

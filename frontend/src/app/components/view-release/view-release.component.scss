@@ -37,21 +37,6 @@
       border-bottom: 1px solid var(--boder-color);
     }
 
-    .item {
-      flex-grow: 0;
-      padding-left: 0.7rem;
-    }
-
-    .item:first-child {
-      flex-basis: 5%;
-      padding-left: 0;
-    }
-
-    .item:nth-child(2) {
-      flex-grow: 1;
-      flex-basis: 90%;
-    }
-
     .repository:last-child {
       border-bottom: none;
     }
@@ -69,8 +54,3 @@
   }
 }
 
-.icon-div {
-  display: flex;
-  justify-content: center;
-  gap: 0.33rem;
-}

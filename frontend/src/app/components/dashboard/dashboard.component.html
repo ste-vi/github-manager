@@ -1,17 +1,54 @@
-<div class="dashboard-container">
-  <div class="repositories-container">
-    <div class="repository-header"><span class="white-color bold">Organization repositories</span></div>
-    <div class="repository-body">
-      <div class="repository" *ngFor="let repo of repositories">
-        <div class="name white-color">
-          {{ repo.name }}
+<div class="container">
+  <div class="line">
+    <div class="card-view">
+      <div class="card">
+        <div class="card-header">
+          <span class="white-color bold">My repositories</span>
         </div>
-        <div class="pull-requests white-color">
-          {{ repo.pullRequestsCount }}
+        <div class="card-body">
+          <div class="card-body-item">
+            <div>
+              <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5'" target="_blank">test-repo-1</a>
+            </div>
+          </div>
+          <div class="card-body-item">
+            <div>
+              <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5'" target="_blank">test-repo-2</a>
+            </div>
+          </div>
         </div>
-        <div class="pull-requests white-color">
-          {{ repo.commitsCount }}
+      </div>
+    </div>
+
+    <div class="card-action">
+      <div class="card white-color action">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </div>
+    </div>
+  </div>
+  <div class="line">
+    <div class="card-view">
+      <div class="card">
+        <div class="card-header">
+          <span class="white-color bold">My releases</span>
         </div>
+        <div class="card-body">
+          <div class="card-body-item">
+            <div>
+              <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5'" target="_blank">2.92.1</a>
+            </div>
+          </div>
+          <div class="card-body-item">
+            <div>
+              <a [href]="'https://github.com/stevi-test/test-repo-1/pull/5'" target="_blank">2.92.2</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-action">
+      <div class="card white-color action">
+        <fa-icon [icon]="faPlus"></fa-icon>
       </div>
     </div>
   </div>

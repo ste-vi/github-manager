@@ -18,7 +18,7 @@ class PullRequestService(private val restTemplate: RestTemplate) {
     @Value("\${github.api.token}")
     private lateinit var githubApiToken: String
 
-    fun createPullRequest(org: String, pullRequestRequest: PullRequestRequest): PullRequest? {
+    fun createPullRequest(org: String, pullRequestRequest: PullRequestRequest): PullRequest {
         val path = "/repos/$org/${pullRequestRequest.repo}/pulls"
         val apiUrl = "$githubApiUrl$path"
         val headers = HttpHeaders().apply {
@@ -43,6 +43,8 @@ class PullRequestService(private val restTemplate: RestTemplate) {
             responseType
         )
 
-        return responseEntity.body;
+        val body = responseEntity.body ?: throw IllegalStateException("Response body is null")
+
+        return body
     }
 }

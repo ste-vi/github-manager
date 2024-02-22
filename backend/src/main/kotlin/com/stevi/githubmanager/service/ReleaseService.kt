@@ -13,7 +13,7 @@ class ReleaseService(
 ) {
 
     fun createRelease(org: String, releaseRequest: ReleaseRequest) {
-        val releasePullRequests = listOf<ReleasePullRequest>()
+        val releasePullRequests = mutableListOf<ReleasePullRequest>()
 
         releaseRequest.pullRequestRequests.map { pullRequestRequest ->
             val pullRequest = pullRequestService.createPullRequest(

@@ -17,23 +17,20 @@ import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @Service
-class RepositoryService(private val restTemplate: RestTemplate, private val userReposRepository: UserReposRepository) {
-
-    @Value("\${github.api.url}")
-    private lateinit var githubApiUrl: String
-
-    @Value("\${github.api.token}")
-    private lateinit var githubApiToken: String
-
+class RepositoryService(
+    private val gitHubApiService: GitHubApiService,
+    private val userReposRepository: UserReposRepository
+) {
 
     fun getRepositories(org: String): List<RepositoryResponse> {
         val repoResponseType = object : ParameterizedTypeReference<List<Repository>>() {}
         val branchesResponseType = object : ParameterizedTypeReference<List<Branch>>() {}
 
-        val repos = getRequestResponse("/orgs/$org/repos", repoResponseType)
+        val repos = gitHubApiService.getRequestResponseList("/orgs/$org/repos", repoResponseType)
 
         val response = repos.map { repo ->
-            val branches = getRequestResponse("/repos/$org/${repo.name}/branches", branchesResponseType)
+            val branches =
+                gitHubApiService.getRequestResponseList("/repos/$org/${repo.name}/branches", branchesResponseType)
             RepositoryResponse(
                 repo.id,
                 repo.name,
@@ -43,18 +40,6 @@ class RepositoryService(private val restTemplate: RestTemplate, private val user
         }
 
         return response;
-    }
-
-
-    private fun <T> getRequestResponse(path: String, responseType: ParameterizedTypeReference<List<T>>): List<T> {
-        val apiUrl = "$githubApiUrl$path"
-        val headers = HttpHeaders().apply {
-            setBearerAuth(githubApiToken)
-        }
-
-        val requestEntity = RequestEntity<Any>(headers, HttpMethod.GET, URI.create(apiUrl))
-        val responseEntity = restTemplate.exchange(requestEntity, responseType)
-        return responseEntity.body?.toList() ?: emptyList()
     }
 
     fun addRepository(org: String, request: AddRepoRequest) {
@@ -68,5 +53,11 @@ class RepositoryService(private val restTemplate: RestTemplate, private val user
             userRepos.repos.addLast(request.repoName);
             userReposRepository.save(userRepos);
         }
+    }
+
+    fun updateRepositoryLocation(newLocationUrl: String, repo: String): String {
+        val repo = gitHubApiService.getRequestResponse(newLocationUrl, Repository::class.java)
+
+        return repo.name
     }
 }

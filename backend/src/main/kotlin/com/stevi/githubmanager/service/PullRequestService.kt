@@ -1,5 +1,6 @@
 package com.stevi.githubmanager.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.stevi.githubmanager.payload.githubapi.PullRequest
 import com.stevi.githubmanager.payload.request.PullRequestRequest
 import org.springframework.beans.factory.annotation.Value
@@ -10,7 +11,11 @@ import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @Service
-class PullRequestService(private val restTemplate: RestTemplate) {
+class PullRequestService(
+    private val repositoryService: RepositoryService,
+    private val restTemplate: RestTemplate,
+    private val defaultObjectMapper: ObjectMapper
+) {
 
     @Value("\${github.api.url}")
     private lateinit var githubApiUrl: String
@@ -19,7 +24,27 @@ class PullRequestService(private val restTemplate: RestTemplate) {
     private lateinit var githubApiToken: String
 
     fun createPullRequest(org: String, pullRequestRequest: PullRequestRequest): PullRequest {
-        val path = "/repos/$org/${pullRequestRequest.repo}/pulls"
+        var responseEntity = callCreatePRApi(org, pullRequestRequest.repo, pullRequestRequest)
+
+        if (responseEntity.statusCode.value() == 307) {
+            responseEntity.headers.getFirst("Location")
+                ?.let {
+                    val newRepoName = repositoryService.updateRepositoryLocation(it.replace("/pulls", ""), pullRequestRequest.repo)
+                    responseEntity = callCreatePRApi(org, newRepoName, pullRequestRequest)
+                }
+        }
+
+        val body = responseEntity.body ?: throw IllegalStateException("Response body is null")
+
+        return defaultObjectMapper.readValue(body, PullRequest::class.java)
+    }
+
+    private fun callCreatePRApi(
+        org: String,
+        repo: String,
+        pullRequestRequest: PullRequestRequest
+    ): ResponseEntity<String> {
+        val path = "/repos/$org/$repo/pulls"
         val apiUrl = "$githubApiUrl$path"
         val headers = HttpHeaders().apply {
             setBearerAuth(githubApiToken)
@@ -34,17 +59,12 @@ class PullRequestService(private val restTemplate: RestTemplate) {
 
         val requestEntity = HttpEntity(requestBody, headers)
 
-        val responseType = object : ParameterizedTypeReference<PullRequest>() {}
-
         val responseEntity = restTemplate.exchange(
             URI(apiUrl),
             HttpMethod.POST,
             requestEntity,
-            responseType
+            String::class.java
         )
-
-        val body = responseEntity.body ?: throw IllegalStateException("Response body is null")
-
-        return body
+        return responseEntity
     }
 }

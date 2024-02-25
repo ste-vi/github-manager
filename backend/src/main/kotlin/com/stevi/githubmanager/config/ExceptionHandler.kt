@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.http.HttpStatus
 import com.stevi.githubmanager.exception.ResourceNotFoundException
+import com.stevi.githubmanager.payload.response.ApiResponse
 
 @ControllerAdvice
 class ExceptionHandler {
